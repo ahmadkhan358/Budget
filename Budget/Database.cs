@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 
 namespace Budget
 {
@@ -20,7 +21,20 @@ namespace Budget
             if (!File.Exists("C:\\Database\\database.sqlite3"))
             {
                 SQLiteConnection.CreateFile("C:\\Database\\database.sqlite3");
+                createTable();
             }
+
+            
+        }
+
+
+        private void createTable()
+        {
+            string query = "CREATE TABLE accounts (id INTEGER, description TEXT NOT NULL, amount INTEGER NOT NULL, day INTEGER NOT NULL, month TEXT NOT NULL, year INTEGER NOT NULL, category INTEGER NOT NULL, PRIMARY KEY(id AUTOINCREMENT))";
+            SQLiteCommand myCommand = new SQLiteCommand(query, myConnection);
+            OpenConnection();
+            var result = myCommand.ExecuteNonQuery();
+            CloseConnection();
         }
 
 
